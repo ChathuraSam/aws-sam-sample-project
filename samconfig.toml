@@ -3,7 +3,7 @@
 version = 0.1
 
 [default.global.parameters]
-stack_name = "sam-test-app"
+stack_name = "sam-sample-app"
 
 [default.build.parameters]
 cached = true
@@ -16,6 +16,9 @@ lint = true
 capabilities = "CAPABILITY_IAM"
 confirm_changeset = true
 resolve_s3 = true
+s3_prefix = "sam-sample-app"
+region = "ap-southeast-2"
+image_repositories = []
 
 [default.package.parameters]
 resolve_s3 = true
@@ -28,12 +31,3 @@ warm_containers = "EAGER"
 
 [default.local_start_lambda.parameters]
 warm_containers = "EAGER"
-
-[dev.deploy.parameters]
-stack_name = "sam-test-app"
-resolve_s3 = true
-s3_prefix = "sam-test-app"
-region = "ap-southeast-2"
-confirm_changeset = true
-capabilities = "CAPABILITY_IAM"
-image_repositories = []
