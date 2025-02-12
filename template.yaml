@@ -12,13 +12,6 @@ Globals:
     Architectures:
       - x86_64
 
-Metadata:
-  BuildMethod: esbuild
-  BuildProperties:
-    Minify: false
-    Target: "es2020"
-    Sourcemap: true
-
 Parameters:
   Environment:
     Type: String
@@ -42,6 +35,12 @@ Resources:
             Path: /hello
             Method: get
             RestApiId: !Ref HelloWorldApi
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: "es2020"
+        Sourcemap: true
 
 Outputs:
   HelloWorldApi:
