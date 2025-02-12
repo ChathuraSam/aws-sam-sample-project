@@ -7,7 +7,7 @@ Description: >
 
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 60
     Runtime: nodejs18.x
     Architectures:
       - x86_64
@@ -17,9 +17,17 @@ Parameters:
     Type: String
     Default: "Prod"
     Description: "The environment name (e.g., Prod, Dev, QA)"
+  TableName:
+    Type: String
+    Description: "The name of the DynamoDB table"
+    Default: "items"
 
 Resources:
   HelloWorldApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: !Ref Environment
+  GetAllItemsApi:
     Type: AWS::Serverless::Api
     Properties:
       StageName: !Ref Environment
@@ -41,8 +49,38 @@ Resources:
         Minify: false
         Target: "es2020"
         Sourcemap: true
+  GetAllItemsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/get-all-items/handler.lambdaHandler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: items-${Environment}
+        - Statement:
+            Effect: Allow
+            Action:
+              - dynamodb:GetItem
+              - dynamodb:Query
+            Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/items-${Environment}"
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /get-all
+            Method: get
+            RestApiId: !Ref GetAllItemsApi
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: "es2020"
+        Sourcemap: true
 
 Outputs:
   HelloWorldApi:
     Description: "API Gateway endpoint URL for Prod stage for Hello World function"
     Value: !Sub "https://${HelloWorldApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}"
+  GetAllItemsApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${GetAllItemsApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}"

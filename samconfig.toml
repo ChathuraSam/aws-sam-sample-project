@@ -8,7 +8,7 @@ s3_bucket = "sam-sample-app-deployment-bucket-dev"
 s3_prefix = "dev"
 region = "us-east-1"
 capabilities = "CAPABILITY_IAM"
-parameter_overrides = "Environment=dev DBHost=dev-db.example.com APIKey=dev-api-key Stage=dev"
+parameter_overrides = "Environment=dev DBHost=dev-db.example.com APIKey=dev-api-key Stage=dev TABLE_NAME=items-dev"
 
 [qa.deploy.parameters]
 stack_name = "sam-sample-app-qa"
@@ -16,7 +16,7 @@ s3_bucket = "sam-sample-app-deployment-bucket-qa"
 s3_prefix = "sam-sample-app"
 region = "us-east-1"
 capabilities = "CAPABILITY_IAM"
-parameter_overrides = "Environment=qa DBHost=qa-db.example.com APIKey=qa-api-key"
+parameter_overrides = "Environment=qa DBHost=qa-db.example.com APIKey=qa-api-key TABLE_NAME=items-qa"
 
 [default.global.parameters]
 stack_name = "sam-test-app-3"
