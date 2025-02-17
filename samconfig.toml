@@ -22,7 +22,7 @@ parameter_overrides = "Environment=qa DBHost=qa-db.example.com APIKey=qa-api-key
 stack_name = "sam-test-app-3"
 
 [default.build.parameters]
-cached = true
+cached = false
 parallel = true
 
 [default.validate.parameters]
